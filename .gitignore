@@ -1,0 +1,4 @@
+.env
+Discord-bot/node_modules/
+Discord-bot/package-lock.json
+Discord-bot/package.json
