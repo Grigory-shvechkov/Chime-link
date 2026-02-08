@@ -1,7 +1,14 @@
-require('dotenv').config({path: '../.env'}); // <-- load .env file
+require('dotenv').config({ path: '../.env' }); // load .env
 
 const { Client, GatewayIntentBits } = require("discord.js");
+const axios = require("axios"); // for HTTP requests
 
+// ---- CONFIG ----
+const TOKEN = process.env.DISCORD_TOKEN;      // Discord bot token from .env
+const ESP_IP = "192.168.17.69";               // ESP32 IP address
+const ESP_URL = `http://${ESP_IP}/ping`;      // endpoint to ping
+
+// ---- CREATE DISCORD CLIENT ----
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -10,20 +17,40 @@ const client = new Client({
   ],
 });
 
-// Load token from environment variable
-const TOKEN = process.env.DISCORD_TOKEN;
-
+// ---- BOT READY ----
 client.once("ready", () => {
   console.log("Bot is online ✅");
 });
 
-client.on("messageCreate", (message) => {
+// ---- MESSAGE HANDLER ----
+client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
+  // ---- TEST COMMAND ----
   if (message.content === "!test") {
     message.reply("It works 🎉");
+
+    try {
+      const res = await axios.get(ESP_URL);
+      console.log("ESP Response:", res.data);  // should log "pong"
+    } catch (err) {
+      console.error("Error contacting ESP32:", err.message);
+      message.reply("⚠️ Could not reach the ESP32!");
+    }
+  }
+
+  // ---- FUTURE COMMAND: PLAY CHIME ----
+  if (message.content === "!chime") {
+    try {
+      const res = await axios.get(`http://${ESP_IP}/chime`);
+      console.log("ESP Response:", res.data);
+      message.reply("🔔 Chime triggered on ESP32!");
+    } catch (err) {
+      console.error("Error contacting ESP32:", err.message);
+      message.reply("⚠️ Could not trigger chime on ESP32!");
+    }
   }
 });
 
-// Login with token from .env
+// ---- LOGIN ----
 client.login(TOKEN);
