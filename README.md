@@ -22,6 +22,12 @@ This reduces delays, removes friction, and improves accessibility for students.
 
 ---
 
+## Demo
+
+![Chime-Link Demo](project%20images/example.gif)
+
+![Chime-Link Demo](project%20images/example.png)
+
 ## Features
 
 - Discord bot command interface
