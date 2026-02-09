@@ -24,9 +24,9 @@ This reduces delays, removes friction, and improves accessibility for students.
 
 ## Demo
 
-![Chime-Link Demo](project%20images/example.gif)
+![Chime-Link Demo](Project-images/example.gif)
 
-![Chime-Link Demo](project%20images/example.png)
+![Chime-Link Demo](Project-images/example.png)
 
 ## Features
 
